@@ -1,16 +1,28 @@
 var express = require('express');
 var router = express.Router();
 
-var restaurants = [];
+var controller = require('../controller/restaurant');
 
 /* GET restaurants listing */
 router.get('/', function(req, res, next) {
-  var data = {
-    title: 'Restaurant Listing',
-    restaurants: restaurants
-  };
 
-   res.render('restaurant/index', data);
+  controller.index(function(err, users) {
+
+    if(err) {
+      res.status(500);
+      res.render('error', {
+        message: 'Could not fetch restaurant index',
+        error: err
+      });
+    }
+
+    var data = {
+      title: 'Restaurant Listing',
+      restaurants: users
+    };
+
+     res.render('restaurant/index', data);
+   });
 });
 
 /* Show a form to add a restaurant */
@@ -30,11 +42,17 @@ router.post('/add', function(req, res, next) {
     healthy: !!input.healthy
   };
 
-  restaurants.push(data);
+  controller.add(data, function(err) {
+    if(err) {
+      res.status(500);
+      res.render('error', {
+        message: 'Could not add new restaurant',
+        error: err
+      });
+    }
 
-  console.log(restaurants);
-
-  res.redirect('..');
+    res.redirect('..');
+  });
 });
 
 module.exports = router;
