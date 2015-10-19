@@ -1,0 +1,23 @@
+<table>
+  <table class="table">
+      <caption>Restaurants</caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Restaurant Name</th>
+          <th>Restaurant Type</th>
+          <th>Healthy?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each restaurants}}
+        <tr>
+          <th scope="row">{{@index}}</th>
+          <td>{{this.name}}</td>
+          <td>{{this.type}}</td>
+          <td>{{this.healthy}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+</table>
